@@ -6,20 +6,21 @@ public class Ball : MonoBehaviour
     [SerializeField] private Transform SideB;
     [SerializeField] private float time = 5;
 
+    public float currentDistance = 0;
 
-    Vector3 MidPointe;
     void Start()
     {
         transform.position = SideA.transform.position;
-    }
 
-    void FixedUpdate()
+    }
+    void Update()
     {
         if (Input.GetKey(KeyCode.Space))
         {
             transform.position = SideA.transform.position;
         }
-        float speed = Vector3.Distance(SideA.transform.position, SideB.transform.position) / time;
-        transform.position = Vector3.Slerp(transform.position, SideB.transform.position, Time.fixedDeltaTime * speed);
+        float distance = Time.deltaTime / time;
+        transform.position = Vector3.Slerp(SideA.transform.position, SideB.transform.position, currentDistance);
+        currentDistance += distance;
     }
 }
